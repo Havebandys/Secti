@@ -41,6 +41,7 @@ A DataFrame with columns:
 - `title` – The company name.
 - `cik` – The CIK padded to 10 digits (for SEC queries).
 
+<pre>
 <div style="font-size: 8px;">
 | ticker | cik_str  | title                        | cik        |
 |--------|----------|------------------------------|------------|
@@ -51,7 +52,7 @@ A DataFrame with columns:
 | GOOGL  | 1652044  | Alphabet Inc.               | 0001652044 |
 | ...    | ...      | ...                          | ...        |
 </div>
-
+</pre>
 ---
 <br><br>
 
@@ -71,6 +72,7 @@ print(filings.head())
 **Returns:**
 A DataFrame like:
 
+<pre>
 <div style="font-size: 8px;">
 | filingDate | reportDate | form    | filmNumber | size    | isXBRL | url                                           |
 |------------|------------|---------|------------|---------|--------|-----------------------------------------------|
@@ -82,6 +84,7 @@ A DataFrame like:
 | 2023-10-27 | 2023-09-30 | 10-Q    | 231351529  | 7894342 | 1      | sec.gov/Archives/edgar/data/0001018724-23-000018... |
 | ...        | ...        | ...     | ...        | ...     | ...    | ...                                           |
 </div>
+</pre>
 ---
 <br><br>
 
@@ -156,6 +159,7 @@ A DataFrame with columns:
 - `Topic(s)` – Relevant topics associated with the form.
 - `link` – A direct URL to the PDF version of the form.
 
+<pre>
 <div style="font-size: 8px;">
 | Number | Description                                        | Last Updated | SEC Number | Topic(s)                                         | link                                      |
 |--------|----------------------------------------------------|--------------|------------|------------------------------------------------|------------------------------------------|
@@ -164,6 +168,7 @@ A DataFrame with columns:
 | 1-E    | Notification under Regulation E (PDF)             | Aug. 2001    | SEC1807    | Investment Company Act of 1940, Small Busin... | [PDF](https://www.sec.gov//files/form1-e.pdf) |
 | ...    | ...                                                | ...          | ...        | ...                                            | ...                                       |
 </div>
+</pre>
 
 ---
 <br><br>
