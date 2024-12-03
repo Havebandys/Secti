@@ -1,10 +1,10 @@
-# secdata Library
+# secfi Library
 
-**Secdata** is a Python library designed to simplify access to SEC (U.S. Securities and Exchange Commission) filings and perform basic web scraping of the retrieved documents.
+**secfi** is a Python library designed to simplify access to SEC (U.S. Securities and Exchange Commission) filings and perform basic web scraping of the retrieved documents.
 
 ```bash
 # Installation
-pip install secdata
+pip install secfi
 ```
 
 ## Features
@@ -13,9 +13,9 @@ pip install secdata
 Fetches a DataFrame of all company tickers and their corresponding Central Index Keys (CIKs).
 
 ```python
-import secdata
+import secfi
 
-ciks = secdata.getCiks()
+ciks = secfi.getCiks()
 print(ciks.head())
 ```
 
@@ -31,7 +31,7 @@ A DataFrame with columns:
 Fetches recent filings for a specific company by its ticker.
 
 ```python
-filings = secdata.getFils("AAPL")
+filings = secfi.getFils("AAPL")
 print(filings.head())
 ```
 
@@ -51,7 +51,7 @@ A DataFrame containing recent filings with columns like:
 Retrieves the textual content of the latest SEC filing of a specific form type for a given ticker.
 
 ```python
-text = secdata.scrapLatest("AAPL", "10-K")
+text = secfi.scrapLatest("AAPL", "10-K")
 print(text[:500])  # Preview the first 500 characters
 ```
 
@@ -68,7 +68,7 @@ A string containing the cleaned text content of the filing.
 Scrapes the textual content of a given URL.
 
 ```python
-content = secdata.scrap("https://example.com")
+content = secfi.scrap("https://example.com")
 print(content[:500])  # Preview the first 500 characters
 ```
 
