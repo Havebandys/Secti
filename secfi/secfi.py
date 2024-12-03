@@ -3,6 +3,24 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def secForms() -> pd.DataFrame:
+    """
+    Reads the 'sec_forms.csv' file located in the 'info' directory and returns it as a pandas DataFrame.
+
+    Returns:
+    - pd.DataFrame: A DataFrame containing the data from the CSV file.
+      If the file cannot be read, returns an empty DataFrame.
+    """
+    try:
+        file_path = "info/sec_forms.csv"  # Ruta relativa dentro del proyecto
+        sec_forms = pd.read_csv(file_path)
+        return sec_forms
+    except Exception as e:
+        print(f"Error reading the 'sec_forms.csv' file: {e}")
+        return pd.DataFrame()
+
+
+
 
 def getCiks() -> pd.DataFrame:
     """
