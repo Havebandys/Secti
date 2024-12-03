@@ -84,7 +84,7 @@ def getFils(ticker:str) -> pd.DataFrame:
         df['url'] = base + '/' + cik + '/' + df['accessionNumber'].str.replace('-', '') + '/' + df['primaryDocument']
         return df.loc[:, columns]
     except:
-        print("Ticker not found")
+        print(f"Ticker {ticker} not found")
         return pd.DataFrame(columns=columns)
 
 
@@ -111,16 +111,15 @@ def scrapLatest(ticker:str, form:str) -> str:
         If the specified form is not found for the given ticker, returns an empty dictionary
     """
     df = getFils(ticker)
-    if len(df)> 0:
-        d = df.iloc[0].to_dict()
-    else:
-        d = df.to_dict()
-
+    df_forms = df.loc[df['form']==form].copy()
     try:
-        url = df.loc[df['form']==form].iloc[0].url        
+        url = df_forms.iloc[0].url        
+        d = df_forms.iloc[0].to_dict()
     except:
         print(f"Form {form} not found for {ticker}")
         url = ""
+        d = {column:"" for column in df.columns}
+
 
     text = ""
     try:

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: secfi
-Version: 0.1.8
+Version: 0.1.9
 Summary: Python tool to collect SEC filings for all publicly traded companies. Easily fetch forms like 10-K, 10-Q, and 8-K, along with links and document contents. Ideal for analysts, researchers, and anyone exploring financial reports or SEC data. Simplify your access to essential company information
 Home-page: https://github.com/gauss314/secfi
 Author: Juan Pablo
