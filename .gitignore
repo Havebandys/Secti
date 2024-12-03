@@ -1,0 +1,10 @@
+.env
+.ipynb_checkpoints/
+secenv/
+
+.DS_Store
+*.ipynb
+__pycache__/
+
+*.log
+tests.py
