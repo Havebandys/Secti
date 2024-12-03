@@ -3,12 +3,12 @@
 
 - [Installation](#installation)
 - [Features](#features)
-  - [1. `getCiks`](#1-getciks)
-  - [2. `getFils`](#2-getfils)
-  - [3. `scrapLatest`](#3-scraplatest)
-  - [4. `scrap`](#4-scrap)
-  - [5. `secForms`](#5-secforms)
-  - [6. `chunkText`](#6-chunktext)
+    - [1. `getCiks`](#1-getciks): Full and up to date, ticker/CIK securities dataframe (+10k tickers)
+    - [2. `getFils`](#2-getfils): Get a Dataframe with __all SEC filings__ for a specific ticker
+    - [3. `scrapLatest`](#3-scraplatest): Retrieves plain text content of the latest SEC filing of a __specified form type__ for a __given company ticker__
+    - [4. `scrap`](#4-scrap): Scrapes the raw text content of a given URL
+    - [5. `secForms`](#5-secforms): Provides a list of all available SEC form types
+    - [6. `chunkText`](#6-chunktext): Splits a long text into evenly distributed chunks with overlap
 - [Notes](#notes)
 - [License](#license)
 
