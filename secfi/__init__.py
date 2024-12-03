@@ -1,3 +1,4 @@
-from .secfi import *
+from .secfi import getCiks, getFils, scrap, scrapLatest
 
-__all__ = [name for name in dir() if not name.startswith("_")]
+__all__ = ["getCiks", "getFils", "scrap", "scrapLatest"]
+

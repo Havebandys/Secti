@@ -44,6 +44,17 @@ def getFils(ticker:str) -> pd.DataFrame:
 
     If the ticker is not found, it returns an empty DataFrame with predefined columns.
     """
+    columns = [
+        "accessionNumber",
+        "filingDate",
+        "reportDate",
+        "acceptanceDateTime",
+        "form",
+        "filmNumber",
+        "size",
+        "isXBRL",
+        "url"
+    ]
 
     try:
         ciks = getCiks()
@@ -54,13 +65,10 @@ def getFils(ticker:str) -> pd.DataFrame:
         df = pd.DataFrame(r_subms.json().get('filings').get('recent'))
         base = f'https://www.sec.gov/Archives/edgar/data'
         df['url'] = base + '/' + cik + '/' + df['accessionNumber'].str.replace('-', '') + '/' + df['primaryDocument']
-        return df
+        return df.loc[:, columns]
     except:
         print("Ticker not found")
-        cols = ['accessionNumber', 'filingDate', 'reportDate', 'acceptanceDateTime',
-                'act', 'form', 'fileNumber', 'filmNumber', 'items', 'core_type', 'size',
-                'isXBRL', 'isInlineXBRL', 'primaryDocument', 'primaryDocDescription', 'url']
-        return pd.DataFrame(columns=cols)
+        return pd.DataFrame(columns=columns)
 
 
 def scrapLatest(ticker:str, form:str) -> str:
