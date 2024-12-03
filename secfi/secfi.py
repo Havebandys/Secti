@@ -5,6 +5,16 @@ from bs4 import BeautifulSoup
 
 
 def getCiks() -> pd.DataFrame:
+    """
+    Fetches a DataFrame of company tickers and their associated CIKs (Central Index Key).
+
+    The function retrieves the data from the SEC's public JSON file and processes it into a pandas DataFrame.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the columns 'cik_str', 'title', and 'cik', indexed by 'ticker'.
+
+    If an error occurs, it returns an empty DataFrame with the appropriate columns.
+    """
     try:
         url_ciks = "https://www.sec.gov/files/company_tickers.json"
         headers = {"User-Agent":"osojuanferpity@xmail.com"}
@@ -20,6 +30,21 @@ def getCiks() -> pd.DataFrame:
 
 
 def getFils(ticker:str) -> pd.DataFrame:
+    """
+    Fetches recent SEC filings for a given company ticker.
+
+    The function retrieves filings data from the SEC's public API, processes it into a DataFrame,
+    and adds a column with URLs to the filings.
+
+    Args:
+        ticker (str): The company ticker symbol.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing recent filings and associated metadata.
+
+    If the ticker is not found, it returns an empty DataFrame with predefined columns.
+    """
+
     try:
         ciks = getCiks()
         cik = ciks.loc[ticker].cik
@@ -39,6 +64,16 @@ def getFils(ticker:str) -> pd.DataFrame:
 
 
 def scrapLatest(ticker:str, form:str) -> str:
+    """
+    Scrapes the content of the latest SEC filing of a specified form type for a given company ticker.
+
+    Args:
+        ticker (str): The company ticker symbol.
+        form (str): The SEC form type (e.g., '10-K', '10-Q').
+
+    Returns:
+        str: The text content of the filing if found and successfully scraped. Otherwise, returns an empty string.
+    """
     df = getFils(ticker)
     try:
         url = df.loc[df['form']==form].iloc[0].url
@@ -57,6 +92,17 @@ def scrapLatest(ticker:str, form:str) -> str:
 
 
 def scrap(url, timeout=15):
+    """
+    Scrapes the text content of an HTML page from a given URL.
+
+    Args:
+        url (str): The URL of the page to scrape.
+        timeout (int, optional): The timeout for the HTTP request in seconds. Default is 15.
+
+    Returns:
+        str: The cleaned text content of the page, or an error message if scraping fails.
+    """
+
     try:
         headers = {"User-Agent":"osojuanferpity@xmail.com"}
         get_response = requests.get(url, headers=headers,timeout=timeout)
