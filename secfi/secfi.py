@@ -45,15 +45,14 @@ def getFils(ticker:str) -> pd.DataFrame:
     If the ticker is not found, it returns an empty DataFrame with predefined columns.
     """
     columns = [
-        "accessionNumber",
         "filingDate",
         "reportDate",
-        "acceptanceDateTime",
         "form",
         "filmNumber",
         "size",
         "isXBRL",
-        "url"
+        "url",
+        "acceptanceDateTime",
     ]
 
     try:
