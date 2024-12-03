@@ -1,5 +1,5 @@
 # **secfi Library**
-**secfi** is a Python library designed to simplify access to SEC (U.S. Securities and Exchange Commission) filings and perform basic web scraping of the retrieved documents.
+**secfi** is a free Python library made to simplify access to SEC (U.S. Securities and Exchange Commission) filings and perform basic web scraping of the retrieved documents
 
 - [Installation](#installation)
 - [Features](#features)
@@ -13,6 +13,16 @@
 
 <br>
 
+___
+
+<br>
+Ypu can try this in free colab:
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1D5luJcWHL_Y7hGw781csspIfZdOhPHZ7?usp=sharing)
+
+
+<br>
+<br>
 ## Installation
 
 ```bash
@@ -57,6 +67,8 @@ A DataFrame with columns:
 Fetches recent filings for a specific company by its ticker.
 
 ```python
+import secfi
+
 filings = secfi.getFils("AAPL")
 print(filings.head())
 ```
@@ -94,18 +106,74 @@ The SEC provides **165 different types of forms**. You can find the complete lis
 
 [SEC Forms CSV](https://github.com/gauss314/secfi/blob/main/info/sec_forms.csv)
 
+#### 10 Most Common Forms for Public Companies:
+1. **10-K**: Annual report that provides a comprehensive overview of the company's business and financial condition.
+2. **10-Q**: Quarterly report that includes unaudited financial statements and provides a continuing view of the company's financial position.
+3. **8-K**: Report used to announce major events that shareholders should know about (e.g., acquisitions, leadership changes).
+4. **S-1**: Registration statement for companies planning to go public with an initial public offering (IPO).
+5. **S-3**: Registration statement for secondary offerings or resales of securities.
+6. **DEF 14A**: Proxy statement used for shareholder meetings, including executive compensation and voting matters.
+7. **4**: Statement of changes in beneficial ownership (insider trading disclosures).
+8. **3**: Initial statement of beneficial ownership of securities (insider ownership).
+9. **6-K**: Report submitted by foreign private issuers to disclose information provided to their home country's regulators.
+10. **13D**: Filing by anyone acquiring more than 5% of a company's shares, detailing their intentions.
+
+#### 10 Most Common Forms for Foreign Companies:
+1. **6-K**: Quarterly or event-specific report submitted by foreign private issuers, serving a similar role to the 10-Q for U.S. companies.
+2. **20-F**: Annual report for foreign private issuers, equivalent to the 10-K for U.S. companies.
+3. **40-F**: Annual report filed by certain Canadian companies under the U.S.-Canada Multijurisdictional Disclosure System.
+4. **F-1**: Registration statement for foreign companies planning an initial public offering (IPO) in the U.S.
+5. **F-3**: Registration statement for foreign companies conducting secondary offerings in the U.S.
+6. **F-4**: Registration statement for mergers, acquisitions, or business combinations involving foreign companies.
+7. **CB**: Filing required for tender offers, rights offerings, or business combinations involving foreign private issuers.
+8. **13F**: Quarterly report by institutional investment managers disclosing equity holdings, applicable to some foreign firms.
+9. **11-K**: Annual report for employee stock purchase, savings, and similar plans for foreign issuers.
+10. **SD**: Specialized disclosure report, often related to conflict minerals, applicable to foreign private issuers with U.S. reporting obligations.
+
+#### Example
 
 ```python
-text = secfi.scrapLatest("AAPL", "10-K")
-print(text[:500])  # Preview the first 500 characters
+import secfi
+
+secfi.scrapLatest("NVDA", "10-Q")
 ```
+
+#### Example Output
+
+When calling the `scrapLatest("NVDA", "10-Q")` function, the returned dictionary might look like this:
+
+<pre>
+{
+    'filingDate': '2024-11-27',
+    'reportDate': '2024-11-25',
+    'form': '4',
+    'filmNumber': '',
+    'size': 4872,
+    'isXBRL': 0,
+    'url': 'https://www.sec.gov/Archives/edgar/data/0001045810/000104581024000318/xslF345X05/wk-form4_1732744744.xml',
+    'acceptanceDateTime': '2024-11-27T16:59:12.000Z',
+    'text': 'STATESSECURITIES AND EXCHANGE COMMISSIONWashington, D.C.\nFor the quarterly period ended October, 2024 OR TRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934Commission File Number: 0-23985 NVIDIA CORPORATION(Exact name of registrant as specified in its charter) Delaware94-3177549(State or other jurisdiction of(I.R.S. Employerincorporation or organization)Identification No.)2788 San Tomas Expressway, Santa Clara, California95051(Address\xa0of principal executive offices)(Zip Code)(408) 486-2000 ....'
+}
+</pre>
 
 **Parameters:**
 - `ticker` (str): The company's ticker symbol.
 - `form` (str): The form type to retrieve (e.g., "10-K", "8-K").
 
 **Returns:**
-A string containing the cleaned text content of the filing.
+
+dict: A dictionary containing details of the filing, including:
+- `filingDate` (str): The date the filing was submitted
+- `reportDate` (str): The reporting period date
+- `form` (str): The type of SEC form (e.g., '10-K', '10-Q')
+- `filmNumber` (str): The film number associated with the filing
+- `size` (int): The size of the filing in bytes
+- `isXBRL` (int): Whether the filing is in XBRL format (1 for yes, 0 for no)
+- `url` (str): The URL of the filing
+- `text` (str): The text content of the filing if found and successfully scraped
+                Otherwise, an empty string
+
+If the specified form is not found for the given ticker, returns an empty dictionary
 
 <br>
 

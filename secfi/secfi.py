@@ -90,20 +90,36 @@ def getFils(ticker:str) -> pd.DataFrame:
 
 def scrapLatest(ticker:str, form:str) -> str:
     """
-    Scrapes the content of the latest SEC filing of a specified form type for a given company ticker.
+    Scrapes the content of the latest SEC filing of a specified form type for a given company ticker
 
     Args:
-        ticker (str): The company ticker symbol.
-        form (str): The SEC form type (e.g., '10-K', '10-Q').
+        ticker (str): The company ticker symbol
+        form (str): The SEC form type (e.g., '10-K', '10-Q')
 
     Returns:
-        str: The text content of the filing if found and successfully scraped. Otherwise, returns an empty string.
+        dict: A dictionary containing details of the filing, including:
+            - `filingDate` (str): The date the filing was submitted
+            - `reportDate` (str): The reporting period date
+            - `form` (str): The type of SEC form (e.g., '10-K', '10-Q')
+            - `filmNumber` (str): The film number associated with the filing
+            - `size` (int): The size of the filing in bytes
+            - `isXBRL` (int): Whether the filing is in XBRL format (1 for yes, 0 for no)
+            - `url` (str): The URL of the filing
+            - `text` (str): The text content of the filing if found and successfully scraped
+                           Otherwise, an empty string
+
+        If the specified form is not found for the given ticker, returns an empty dictionary
     """
     df = getFils(ticker)
+    if len(df)> 0:
+        d = df.iloc[0].to_dict()
+    else:
+        d = df.to_dict()
+
     try:
-        url = df.loc[df['form']==form].iloc[0].url
+        url = df.loc[df['form']==form].iloc[0].url        
     except:
-        print(f"Form {form} not found")
+        print(f"Form {form} not found for {ticker}")
         url = ""
 
     text = ""
@@ -112,7 +128,9 @@ def scrapLatest(ticker:str, form:str) -> str:
             text = scrap(url)
     except Exception as e:
         print(e)
-    return text
+    
+    d.update({"text": text})
+    return d
 
 
 
