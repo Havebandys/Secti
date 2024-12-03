@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: secfi
-Version: 0.1.9
+Version: 0.1.10
 Summary: Python tool to collect SEC filings for all publicly traded companies. Easily fetch forms like 10-K, 10-Q, and 8-K, along with links and document contents. Ideal for analysts, researchers, and anyone exploring financial reports or SEC data. Simplify your access to essential company information
 Home-page: https://github.com/gauss314/secfi
 Author: Juan Pablo
@@ -28,6 +28,7 @@ License-File: LICENSE.txt
   - [3. `scrapLatest`](#3-scraplatest)
   - [4. `scrap`](#4-scrap)
   - [5. `secForms`](#5-secforms)
+  - [6. `chunkText`](#6-chunktext)
 - [Notes](#notes)
 - [License](#license)
 
@@ -218,7 +219,7 @@ The cleaned text content of the URL or an error message if the request fails.
 
 
 
-### <a name="5-secforms"></a>1. `secForms()`
+### <a name="5-secforms"></a>5. `secForms()`
 Fetches a DataFrame of SEC forms and their details from the `sec_forms.csv` file located in the `info` directory.
 
 ```python
@@ -248,6 +249,62 @@ A DataFrame with columns:
 
 <br>
 
+
+### <a name="6-chunktext"></a>6. `chunkText`
+
+Splits a long text into chunks of a specified maximum length with overlap, ensuring all text is evenly distributed and the last chunk is appended to the previous one.
+
+#### Parameters:
+- `text` (str): The input text to split.
+- `max_length` (int, optional): The maximum length of each chunk. Defaults to 10,000.
+- `overlap` (int, optional): The number of overlapping characters between consecutive chunks. Defaults to 300.
+
+#### Returns:
+- `dict`: A dictionary containing the following keys:
+  - **`total_chars` (int)**: The total number of characters in the input text.
+  - **`max_length_config` (int)**: The adjusted maximum length for each chunk after recalculation.
+  - **`total_chunks` (int)**: The total number of chunks generated.
+  - **`chunks` (list)**: A list of text chunks.
+
+
+#### Example:
+```python
+import secfi 
+
+text = """
+    Se cierra Armani, el taco no, hace la personal y ahi se va, se va\n
+    Se viene Martínez para el gol y va el tercero y va el tercero\n
+    Y va el tercero y gol de River gol de River goooool
+"""
+
+res = secfi.chunkText(text, max_length=120, overlap=20)
+chunks - res["chunks"]
+
+print(f"Original text chars: {res['total_chars']}")
+print(f"Total chunks: {res['total_chunks']}")
+
+for i, chunk in enumerate(chunks):
+    print(f"Chunk number: {i+1}\n{chunk}")
+```
+#### Output
+<pre>
+Original text chars: 190
+Total chunks: 2
+
+Chunk number: 1
+Se cierra Armani, el taco no, hace la personal y ahi se va, se va
+
+    Se viene Martínez para el gol y va
+
+Chunk number: 2
+nez para el gol y va el tercero y va el tercero
+
+    Y va el tercero y gol de River gol de River goooool
+ol de River goooool
+</pre>
+
+
+<br><br>
 
 ## Notes
 - The library uses a custom `User-Agent` to comply with SEC API requirements.

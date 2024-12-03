@@ -170,3 +170,46 @@ def scrap(url, timeout=15):
     except Exception as e:
         return f"Exception: {e}"
 
+
+
+
+
+def chunkText(text: str, max_length: int = 10_000, overlap: int = 300) -> dict:
+    """
+    Splits a long text into chunks of a specified maximum length with overlap.
+
+    Args:
+        text (str): The input text to split.
+        max_length (int, optional): The maximum length of each chunk. Defaults to 10,000.
+        overlap (int, optional): The number of overlapping characters between consecutive chunks. Defaults to 300.
+
+    Returns:
+        dict: A dictionary containing the following keys:
+            - "total_chars" (int): The total number of characters in the input text.
+            - "max_length_config" (int): The adjusted maximum length for each chunk after recalculation.
+            - "total_chunks" (int): The total number of chunks generated.
+            - "chunks" (list): A list of text chunks.
+    """
+    if max_length <= overlap:
+        raise ValueError("max_length must be greater than overlap.")
+    
+    total_chars = len(text)
+    estimated_chunks = (total_chars - overlap) // (max_length - overlap) + 1
+    max_length = (total_chars + (estimated_chunks - 1) * overlap) // estimated_chunks
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = min(start + max_length, len(text))
+        chunks.append(text[start:end])
+        start += max_length - overlap
+    
+    if len(chunks) > 1:
+        last = chunks.pop()
+        chunks[-1] += last
+
+    return {
+        "total_chars": len(text),
+        "max_length_config": max_length,
+        "total_chunks": len(chunks),
+        "chunks": chunks
+    }

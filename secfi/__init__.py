@@ -1,4 +1,4 @@
-from .secfi import getCiks, getFils, scrap, scrapLatest, secForms
+from .secfi import getCiks, getFils, scrap, scrapLatest, secForms, chunkText
 
-__all__ = ["getCiks", "getFils", "scrap", "scrapLatest", "secForms"]
+__all__ = ["getCiks", "getFils", "scrap", "scrapLatest", "secForms", "chunkText"]
 
